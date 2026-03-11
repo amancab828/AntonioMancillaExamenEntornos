@@ -1,5 +1,7 @@
 package app;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import dominio.Comercial;
@@ -24,9 +26,21 @@ public class GestorEmpleados {
             opcion = consola.leerEntero("Elige una opción");
 
             switch (opcion) {
-            	case 1 -> contratarEmplado();
-            	case 2 -> listarTodos();
-            	case 3 -> listarPorFiltro();
+            	case 1 -> {
+            		contratarEmplado();
+            		consola.pausa();
+            		consola.limpiarPantalla();
+            	}
+            	case 2 -> {
+            		listarTodos();
+            		consola.pausa();
+            		consola.limpiarPantalla();
+            	}
+            	case 3 -> {
+            		listarPorFiltro();
+            		consola.pausa();
+            		consola.limpiarPantalla();
+            	}
             	case 4 -> consola.imprimirLinea("Saliendo");
             	default -> consola.imprimirLinea("Opción no válida, inténtalo de nuevo.");
             }
@@ -40,56 +54,46 @@ public class GestorEmpleados {
 		double sueldoBase, ventas;
 		Tecnico tecnico;
 		Comercial comercial;
-        do {
-    		consola.imprimirLinea("1 - Técnico");
-    		consola.imprimirLinea("2 - Comercial");
-            opcion = consola.leerEntero("Elige una opción");
+    	
+		consola.imprimirLinea("1 - Técnico");
+    	consola.imprimirLinea("2 - Comercial");
+        opcion = consola.leerEntero("Elige una opción");
 
-            switch (opcion) {
-            	case 1 -> {
-            		dni = consola.leerTexto("DNI: ");
-            		nombre = consola.leerTexto("Nombre: ");
-            		apellidos = consola.leerTexto("Apellidos: ");
-            		sueldoBase = consola.leerImporte("Sueldo Base: ");
-            		categoria = consola.leerEntero("Categoria: ");
-            		tecnico = new Tecnico(dni, nombre, apellidos, sueldoBase, categoria);
-            	}
-            	case 2 -> {
-            		dni = consola.leerTexto("DNI: ");
-            		nombre = consola.leerTexto("Nombre: ");
-            		apellidos = consola.leerTexto("Apellidos: ");
-            		sueldoBase = consola.leerImporte("Sueldo Base: ");
-            		ventas = consola.leerImporte("Ventas: ");
-            		comercial = new Comercial(dni, nombre, apellidos, sueldoBase);
-            		comercial.setVentas(ventas);
-            	}
-            	default -> consola.imprimirLinea("Opción no válida, inténtalo de nuevo.");
+        switch (opcion) {
+            case 1 -> {
+            	dni = consola.leerTexto("DNI: ");
+            	nombre = consola.leerTexto("Nombre: ");
+            	apellidos = consola.leerTexto("Apellidos: ");
+            	sueldoBase = consola.leerImporte("Sueldo Base: ");
+            	categoria = consola.leerEntero("Categoria: ");
+            	tecnico = new Tecnico(dni, nombre, apellidos, sueldoBase, categoria);
+            	plantilla.agregarEmpleado(tecnico);
             }
-
-        } while (opcion != 4);
-
-		opcion = consola.leerEntero("Elige una opción");
-		
+            case 2 -> {
+            	dni = consola.leerTexto("DNI: ");
+            	nombre = consola.leerTexto("Nombre: ");
+            	apellidos = consola.leerTexto("Apellidos: ");
+            	sueldoBase = consola.leerImporte("Sueldo Base: ");
+            	ventas = consola.leerImporte("Ventas: ");
+            	comercial = new Comercial(dni, nombre, apellidos, sueldoBase);
+            	comercial.setVentas(ventas);
+            	plantilla.agregarEmpleado(comercial);
+            }
+            default -> consola.imprimirLinea("Opción no válida, inténtalo de nuevo.");
+        }	
 	}
 	private void listarTodos() {
-
+		listarEmpleados(plantilla.getEmpleadosPorNombre(""));
 	}
 	private void listarPorFiltro() {
-		
+		listarEmpleados(plantilla.getEmpleadosPorNombre(""));
 	}
 	private void listarEmpleados(List<Empleado> empleados) {
 		for (Empleado e : empleados) {
-			consola.imprimir("Nombre: ");
-			consola.imprimirLinea(e.getNombre());
-			consola.imprimir("Apellidos: ");
-			consola.imprimirLinea(e.getApellidos());
-			consola.imprimir("DNI: ");
-			consola.imprimirLinea(e.getDni());
-			consola.imprimir("Sueldo base: ");
-			consola.imprimirLinea(e.getSueldoBase().toString());
+			consola.imprimirLinea(e.toString());
 		}
 	}
 	private void ordenarPorNombre(List<Empleado> empleados) {
-		
+		Collections.sort(empleados, Comparator.comparing(Empleado::getNombre));
 	}
 }

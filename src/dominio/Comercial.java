@@ -11,6 +11,7 @@ public class Comercial extends Empleado{
 		this.ventas=ventas;
 	}
 	
+	@Override
 	public double getSueldo() {
 		double sueldo;
 		
@@ -18,4 +19,10 @@ public class Comercial extends Empleado{
 		
 		return sueldo;
 	}
+	
+	@Override
+    public String toString() {
+    	return String.format("Nombre: %s\nApellidos: %s\nDNI: %s\nSueldo base: %.2f\nVentas: %.2f", 
+				nombre, apellidos, dni, sueldoBase, ventas);
+    }
 }

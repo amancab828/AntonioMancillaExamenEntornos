@@ -8,6 +8,7 @@ public class Tecnico extends Empleado{
 		this.categoria=categoria;
 	}
 	
+	@Override
 	public double getSueldo() {
 		double sueldo;
 		
@@ -15,4 +16,10 @@ public class Tecnico extends Empleado{
 		
 		return sueldo;
 	}
+
+    @Override
+    public String toString() {
+    	return String.format("Nombre: %s\nApellidos: %s\nDNI: %s\nSueldo base: %.2f\nCategoria: %d", 
+				nombre, apellidos, dni, sueldoBase, categoria);
+    }
 }
